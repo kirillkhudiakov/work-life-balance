@@ -2,13 +2,20 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="khudiakovkirill.worklifebalance.MainActivityViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
         <SeekBar
-            android:id="@+id/work_text"
+            android:id="@+id/seek_bar"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -17,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/work_label_text"
@@ -26,8 +33,8 @@
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_medium"
             android:text="@string/work"
-            app:layout_constraintBottom_toTopOf="@+id/work_text"
-            app:layout_constraintStart_toStartOf="@+id/work_text" />
+            app:layout_constraintBottom_toTopOf="@+id/seek_bar"
+            app:layout_constraintStart_toStartOf="@+id/seek_bar" />
 
         <TextView
             android:id="@+id/rest_label_text"
@@ -36,8 +43,8 @@
             android:layout_marginBottom="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_large"
             android:text="@string/rest"
-            app:layout_constraintBottom_toTopOf="@+id/work_text"
-            app:layout_constraintEnd_toEndOf="@+id/work_text" />
+            app:layout_constraintBottom_toTopOf="@+id/seek_bar"
+            app:layout_constraintEnd_toEndOf="@+id/seek_bar" />
 
         <TextView
             android:id="@+id/work_value_text"
@@ -45,9 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginStart="@dimen/spacing_large"
-            android:text="@string/five"
-            app:layout_constraintStart_toStartOf="@+id/work_text"
-            app:layout_constraintTop_toBottomOf="@+id/work_text" />
+            android:text="@{String.valueOf(viewModel.workRatio)}"
+            app:layout_constraintStart_toStartOf="@+id/seek_bar"
+            app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
         <TextView
             android:id="@+id/rest_value_text"
@@ -55,9 +62,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_large"
-            android:text="@string/five"
-            app:layout_constraintEnd_toEndOf="@+id/work_text"
-            app:layout_constraintTop_toBottomOf="@+id/work_text" />
+            android:text="@{String.valueOf(viewModel.restRatio)}"
+            app:layout_constraintEnd_toEndOf="@+id/seek_bar"
+            app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
