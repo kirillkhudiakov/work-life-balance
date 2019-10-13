@@ -20,9 +20,8 @@ class MainActivityViewModel : ViewModel() {
         _restRatio.value = 5
     }
 
-    fun onSeekBarProgressChanged(seekBar: SeekBar?, progressValue: Int, fromUser: Boolean) {
+    fun onSeekBarProgressChanged(seekBar: SeekBar, progressValue: Int) {
         _workRatio.value = progressValue
-        // We can confidently use !! operator because seekBar.max is defined in layout file.
-        _restRatio.value = seekBar!!.max - progressValue
+        _restRatio.value = seekBar.max - progressValue
     }
 }
