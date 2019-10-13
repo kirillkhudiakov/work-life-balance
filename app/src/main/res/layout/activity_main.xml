@@ -1,57 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-    <SeekBar
-        android:id="@+id/work_text"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:max="10"
-        android:progress="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <SeekBar
+            android:id="@+id/work_text"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:max="10"
+            android:progress="5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/work_label-text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        android:text="@string/work"
-        app:layout_constraintBottom_toTopOf="@+id/work_text"
-        app:layout_constraintStart_toStartOf="@+id/work_text" />
+        <TextView
+            android:id="@+id/work_label_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/work"
+            app:layout_constraintBottom_toTopOf="@+id/work_text"
+            app:layout_constraintStart_toStartOf="@+id/work_text" />
 
-    <TextView
-        android:id="@+id/rest_label_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        android:text="@string/rest"
-        app:layout_constraintBottom_toTopOf="@+id/work_text"
-        app:layout_constraintEnd_toEndOf="@+id/work_text" />
+        <TextView
+            android:id="@+id/rest_label_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:text="@string/rest"
+            app:layout_constraintBottom_toTopOf="@+id/work_text"
+            app:layout_constraintEnd_toEndOf="@+id/work_text" />
 
-    <TextView
-        android:id="@+id/work_value_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/five"
-        app:layout_constraintStart_toStartOf="@+id/work_text"
-        app:layout_constraintTop_toBottomOf="@+id/work_text" />
+        <TextView
+            android:id="@+id/work_value_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:text="@string/five"
+            app:layout_constraintStart_toStartOf="@+id/work_text"
+            app:layout_constraintTop_toBottomOf="@+id/work_text" />
 
-    <TextView
-        android:id="@+id/rest_value_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/five"
-        app:layout_constraintEnd_toEndOf="@+id/work_text"
-        app:layout_constraintTop_toBottomOf="@+id/work_text" />
+        <TextView
+            android:id="@+id/rest_value_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:text="@string/five"
+            app:layout_constraintEnd_toEndOf="@+id/work_text"
+            app:layout_constraintTop_toBottomOf="@+id/work_text" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
