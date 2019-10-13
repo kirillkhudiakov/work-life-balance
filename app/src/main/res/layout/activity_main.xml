@@ -21,10 +21,10 @@
             android:layout_height="wrap_content"
             android:max="10"
             android:progress="5"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/time_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/work_label_text"
@@ -40,8 +40,8 @@
             android:id="@+id/rest_label_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_medium"
             android:text="@string/rest"
             app:layout_constraintBottom_toTopOf="@+id/seek_bar"
             app:layout_constraintEnd_toEndOf="@+id/seek_bar" />
@@ -50,11 +50,12 @@
             android:id="@+id/work_value_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_medium"
             android:text="@{String.valueOf(viewModel.workRatio)}"
             app:layout_constraintStart_toStartOf="@+id/seek_bar"
-            app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/seek_bar"
+            tools:text="5" />
 
         <TextView
             android:id="@+id/rest_value_text"
@@ -64,7 +65,52 @@
             android:layout_marginEnd="@dimen/spacing_large"
             android:text="@{String.valueOf(viewModel.restRatio)}"
             app:layout_constraintEnd_toEndOf="@+id/seek_bar"
-            app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/seek_bar"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/time_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Elapsed time" />
+
+        <TextView
+            android:id="@+id/time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/work_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seek_bar"
+            tools:text="11:58" />
+
+        <Button
+            android:id="@+id/work_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circle"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rest_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_text" />
+
+        <Button
+            android:id="@+id/rest_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circle"
+            android:text="Button"
+            app:layout_constraintBaseline_toBaselineOf="@+id/work_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/work_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
