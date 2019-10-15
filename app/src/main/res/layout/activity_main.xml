@@ -69,10 +69,11 @@
             tools:text="5" />
 
         <TextView
-            android:id="@+id/status_text"
+            android:id="@+id/time_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
+            android:fontFamily="@font/roboto"
             android:text="TextView"
             app:layout_constraintBottom_toTopOf="@+id/time_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +84,10 @@
             android:id="@+id/time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/electrolize"
             android:text="@{String.valueOf(viewModel.time)}"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/work_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -95,7 +99,7 @@
             android:id="@+id/work_button"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:text="Button"
+            android:text="Work"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rest_button"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,22 +110,21 @@
             android:id="@+id/rest_button"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:text="Button"
+            android:text="Rest"
             app:layout_constraintBaseline_toBaselineOf="@+id/work_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/work_button" />
+            app:layout_constraintStart_toEndOf="@+id/work_button"
+            android:onClick="@{() -> viewModel.onRestButtonClicked()}" />
 
-        <Chronometer
-            android:id="@+id/chronometer"
+        <TextView
+            android:id="@+id/status_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:paddingTop="30dip"
-            android:paddingBottom="30dip"
-            app:layout_constraintBottom_toTopOf="@+id/work_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time_text" />
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/seek_bar"
+            tools:text="Status: Undefined"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

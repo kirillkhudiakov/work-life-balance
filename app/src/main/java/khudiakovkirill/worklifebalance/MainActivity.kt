@@ -1,17 +1,11 @@
 package khudiakovkirill.worklifebalance
 
-import android.content.ComponentName
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import khudiakovkirill.worklifebalance.databinding.ActivityMainBinding
-import android.content.Intent
-import android.content.ServiceConnection
-import android.os.IBinder
-
 
 class MainActivity : AppCompatActivity() {
 

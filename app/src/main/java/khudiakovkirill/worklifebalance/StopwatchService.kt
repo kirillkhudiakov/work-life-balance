@@ -20,16 +20,13 @@ class StopwatchService : Service() {
     private val timer = Timer()
 
     override fun onBind(intent: Intent?): IBinder {
-        Log.i("StopwatchService", "Service bound")
         return binder
     }
 
     override fun onCreate() {
         super.onCreate()
-        Log.i("StopwatchService", "Service created")
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                Log.i("StopwatchService", "in timer")
                 time.postValue(System.currentTimeMillis())
             }
         }, 0, 5000)
