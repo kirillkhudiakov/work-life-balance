@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
             android:fontFamily="@font/roboto"
-            android:text="TextView"
+            android:text="@{viewModel.directionString}"
             app:layout_constraintBottom_toTopOf="@+id/time_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

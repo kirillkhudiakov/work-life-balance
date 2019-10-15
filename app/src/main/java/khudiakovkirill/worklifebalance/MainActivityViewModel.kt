@@ -3,14 +3,15 @@ package khudiakovkirill.worklifebalance
 import android.widget.SeekBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
-enum class Status { WORKING, RESTING, UNDEFINED }
+enum class Action { WORKING, RESTING, NONE }
 
 class MainActivityViewModel : ViewModel() {
 
-    private var status = Status.UNDEFINED
-    private var lastStatus = Status.UNDEFINED
+    private var action = Action.NONE
+    private var lastAction = Action.NONE
 
     private val _workRatio = MutableLiveData<Int>()
     val workRatio: LiveData<Int>
@@ -24,6 +25,17 @@ class MainActivityViewModel : ViewModel() {
 
     val time: LiveData<Long>
         get() = chronometer.time
+
+    private val direction: LiveData<Chronometer.Direction>
+        get() = chronometer.direction
+
+    val directionString: LiveData<String> = Transformations.map(direction) {
+        when(it) {
+            Chronometer.Direction.DOWN -> "Time left"
+            Chronometer.Direction.UP -> "Extra time"
+            else -> ""
+        }
+    }
 
     private var lastInterval: Long = 0
 
@@ -48,40 +60,40 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun onWorkButtonClicked() {
-        when (status) {
-            Status.WORKING -> {
-                lastStatus = Status.WORKING
-                status = Status.UNDEFINED
+        when (action) {
+            Action.WORKING -> {
+                lastAction = Action.WORKING
+                action = Action.NONE
                 stopChronometer()
             }
-            Status.RESTING -> {
+            Action.RESTING -> {
                 stopChronometer()
-                lastStatus = Status.RESTING
-                status = Status.WORKING
+                lastAction = Action.RESTING
+                action = Action.WORKING
                 startChronometer()
             }
-            Status.UNDEFINED -> {
-                status = Status.WORKING
+            Action.NONE -> {
+                action = Action.WORKING
                 startChronometer()
             }
         }
     }
 
     fun onRestButtonClicked() {
-        when (status) {
-            Status.RESTING -> {
-                lastStatus = Status.RESTING
-                status = Status.UNDEFINED
+        when (action) {
+            Action.RESTING -> {
+                lastAction = Action.RESTING
+                action = Action.NONE
                 stopChronometer()
             }
-            Status.WORKING -> {
+            Action.WORKING -> {
                 stopChronometer()
-                lastStatus = Status.WORKING
-                status = Status.RESTING
+                lastAction = Action.WORKING
+                action = Action.RESTING
                 startChronometer()
             }
-            Status.UNDEFINED -> {
-                status = Status.RESTING
+            Action.NONE -> {
+                action = Action.RESTING
                 startChronometer()
             }
         }
@@ -97,13 +109,13 @@ class MainActivityViewModel : ViewModel() {
     }
 
     private fun getInterval(): Long {
-        if (lastStatus == Status.UNDEFINED || status == lastStatus) {
+        if (lastAction == Action.NONE || action == lastAction) {
             return 0
         }
 
         // We can use null assertion operator because we set values in init-block.
         var ratio = _workRatio.value!!.toDouble() / _restRatio.value!!.toDouble()
-        if (status == Status.RESTING) ratio = 1.0 / ratio
+        if (action == Action.RESTING) ratio = 1.0 / ratio
 
         return (lastInterval * ratio).toLong()
     }

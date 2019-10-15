@@ -16,11 +16,18 @@ class Chronometer {
 
     val time = MutableLiveData<Long>()
 
+    var direction = MutableLiveData<Direction>()
+
+    init {
+        direction.value = Direction.UNDEFINED
+    }
+
     /**
      * Starts new time measurement. The method will update time field every second.
      * @param interval Duration of countdown. After that chronometer will continue to work anyway.
      */
     fun start(interval: Long = 0) {
+        direction.value = if (interval > 0) Direction.DOWN else Direction.UP
         startTime = System.currentTimeMillis()
         timer = Timer()
         val task = ChronometerTask(interval)
@@ -31,6 +38,7 @@ class Chronometer {
      * Stops current time measurement.
      */
     fun stop() {
+        direction.value = Direction.UNDEFINED
         timer.cancel()
         lastInterval = System.currentTimeMillis() - startTime
     }
@@ -45,8 +53,14 @@ class Chronometer {
 
     private inner class ChronometerTask(private val interval: Long) : TimerTask() {
         override fun run() {
-            val currentTime: Long = abs(interval - (System.currentTimeMillis() - startTime)) / 1000
+            val elapsedTime = System.currentTimeMillis() - startTime
+            if (direction.value == Direction.DOWN && elapsedTime >= interval)
+                direction.postValue(Direction.UP)
+
+            val currentTime: Long = abs(elapsedTime - interval) / 1000
             time.postValue(currentTime)
         }
     }
+
+    enum class Direction { UP, DOWN, UNDEFINED }
 }
