@@ -21,9 +21,10 @@ class MainActivityViewModel : ViewModel() {
     val restRatio: LiveData<Int>
         get() = _restRatio
 
-    val time: MutableLiveData<Long> = MutableLiveData<Long>()
+    val chronometer = Chronometer()
 
-    var timer = Timer()
+    val time: LiveData<Long>
+        get() = chronometer.time
 
     var interval: Long = 0
     var startTime: Long = 0
@@ -31,11 +32,6 @@ class MainActivityViewModel : ViewModel() {
     init {
         _workRatio.value = 5
         _restRatio.value = 5
-//        timer.scheduleAtFixedRate(object : TimerTask() {
-//            override fun run() {
-//                time.postValue(System.currentTimeMillis())
-//            }
-//        }, 0, 1000)
     }
 
     fun onSeekBarProgressChanged(seekBar: SeekBar, progressValue: Int) {
@@ -47,33 +43,26 @@ class MainActivityViewModel : ViewModel() {
         when (status) {
             Status.WORKING -> {
                 status = Status.UNDEFINED
-                stopWorking()
+                stopChronometer()
             }
             else -> {
                 status = Status.WORKING
-                startWorking()
+                startChronometer()
             }
         }
     }
 
-    private fun startWorking() {
-        startTime = System.currentTimeMillis()
-        timer = Timer()
-        timer.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                val currentTime: Long = abs(interval - (System.currentTimeMillis() - startTime)) / 1000
-                time.postValue(currentTime)
-            }
-        }, 0, 1000)
+    private fun startChronometer() {
+        chronometer.start(interval)
     }
 
-    private fun stopWorking() {
-        timer.cancel()
-        interval = System.currentTimeMillis() - startTime
+    private fun stopChronometer() {
+        chronometer.stop()
+        interval = chronometer.getLastInterval()
     }
 
     override fun onCleared() {
         super.onCleared()
-        timer.cancel()
+        chronometer.stop()
     }
 }
