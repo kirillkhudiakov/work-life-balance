@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.SeekBar
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.eventTimeOver.observe(this, Observer { timeOver ->
             if (timeOver) {
+                // We can use not-null assertion because we defined value in init-block.
                 createNotification(viewModel.action.value!!)
                 viewModel.onTimeOverEventFinished()
             }
@@ -79,8 +79,6 @@ class MainActivity : AppCompatActivity() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val name = getString(R.string.channel_name)
-//            val descriptionText = getString(R.string.channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance).apply {
                 description = CHANNEL_DESCRIPTION
@@ -94,7 +92,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.i("MainActivity", "I was destroyed(")
+        with(NotificationManagerCompat.from(this)) {
+            cancelAll()
+        }
     }
 }
 
