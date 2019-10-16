@@ -9,17 +9,19 @@ import kotlin.math.abs
  */
 class Chronometer {
 
-    private lateinit var timer: Timer
+    private var timer = Timer()
 
     private var startTime: Long = 0
     private var lastInterval: Long = 0
 
     val time = MutableLiveData<Long>()
+    val eventTimeOver = MutableLiveData<Boolean>()
 
     var direction = MutableLiveData<Direction>()
 
     init {
         direction.value = Direction.UNDEFINED
+        eventTimeOver.value = false
     }
 
     /**
@@ -54,8 +56,10 @@ class Chronometer {
     private inner class ChronometerTask(private val interval: Long) : TimerTask() {
         override fun run() {
             val elapsedTime = System.currentTimeMillis() - startTime
-            if (direction.value == Direction.DOWN && elapsedTime >= interval)
+            if (direction.value == Direction.DOWN && elapsedTime >= interval) {
                 direction.postValue(Direction.UP)
+                eventTimeOver.postValue(true)
+            }
 
             val currentTime: Long = abs(elapsedTime - interval) / 1000
             time.postValue(currentTime)

@@ -6,11 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
-enum class Action { WORKING, RESTING, NONE }
-
 class MainActivityViewModel : ViewModel() {
 
-    private var action = Action.NONE
+    var action = MutableLiveData<Action>()
     private var lastAction = Action.NONE
 
     private val _workRatio = MutableLiveData<Int>()
@@ -26,6 +24,9 @@ class MainActivityViewModel : ViewModel() {
     val time: LiveData<Long>
         get() = chronometer.time
 
+    val eventTimeOver: LiveData<Boolean>
+        get() = chronometer.eventTimeOver
+
     private val direction: LiveData<Chronometer.Direction>
         get() = chronometer.direction
 
@@ -37,11 +38,26 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
+    val workButtonText: LiveData<String> = Transformations.map(action) {
+        when(it) {
+            Action.WORKING -> "Stop\nwork"
+            else -> "Start\nwork"
+        }
+    }
+
+    val restButtonText: LiveData<String> = Transformations.map(action) {
+        when(it) {
+            Action.RESTING -> "Stop\nrest"
+            else -> "Start\nrest"
+        }
+    }
+
     private var lastInterval: Long = 0
 
     init {
         _workRatio.value = 5
         _restRatio.value = 5
+        action.value = Action.NONE
     }
 
     fun onSeekBarProgressChanged(seekBar: SeekBar, progressValue: Int) {
@@ -60,43 +76,47 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun onWorkButtonClicked() {
-        when (action) {
+        when (action.value) {
             Action.WORKING -> {
                 lastAction = Action.WORKING
-                action = Action.NONE
+                action.value = Action.NONE
                 stopChronometer()
             }
             Action.RESTING -> {
                 stopChronometer()
                 lastAction = Action.RESTING
-                action = Action.WORKING
+                action.value = Action.WORKING
                 startChronometer()
             }
             Action.NONE -> {
-                action = Action.WORKING
+                action.value = Action.WORKING
                 startChronometer()
             }
         }
     }
 
     fun onRestButtonClicked() {
-        when (action) {
+        when (action.value) {
             Action.RESTING -> {
                 lastAction = Action.RESTING
-                action = Action.NONE
+                action.value = Action.NONE
                 stopChronometer()
             }
             Action.WORKING -> {
                 stopChronometer()
                 lastAction = Action.WORKING
-                action = Action.RESTING
+                action.value = Action.RESTING
                 startChronometer()
             }
             Action.NONE -> {
-                action = Action.RESTING
+                action.value = Action.RESTING
                 startChronometer()
             }
         }
+    }
+
+    fun onTimeOverEventFinished() {
+        chronometer.eventTimeOver.value = false
     }
 
     private fun startChronometer() {
@@ -109,13 +129,13 @@ class MainActivityViewModel : ViewModel() {
     }
 
     private fun getInterval(): Long {
-        if (lastAction == Action.NONE || action == lastAction) {
+        if (lastAction == Action.NONE || action.value == lastAction) {
             return 0
         }
 
         // We can use null assertion operator because we set values in init-block.
         var ratio = _workRatio.value!!.toDouble() / _restRatio.value!!.toDouble()
-        if (action == Action.RESTING) ratio = 1.0 / ratio
+        if (action.value == Action.RESTING) ratio = 1.0 / ratio
 
         return (lastInterval * ratio).toLong()
     }
@@ -124,4 +144,6 @@ class MainActivityViewModel : ViewModel() {
         super.onCleared()
         chronometer.stop()
     }
+
+    enum class Action { WORKING, RESTING, NONE }
 }

@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Work-life balance</string>
-    <string name="work">Work</string>
-    <string name="rest">Rest</string>
+    <string name="app_name">Work-life timer</string>
+    <string name="work">work</string>
+    <string name="rest">rest</string>
+    <string name="switch_activity">Switch your activity</string>
+    <string name="time_to">It\'s time to</string>
 </resources>
